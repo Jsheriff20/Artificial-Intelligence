@@ -69,5 +69,17 @@ namespace AI_house_location_scorer
                 nud_upload_speed.Maximum = 100;
             }
         }
+
+        private void aspects_to_monitor_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_get_score_Click(object sender, EventArgs e)
+        {
+            calculate_results next_form = new calculate_results();
+            next_form.Show();
+            this.Hide();
+        }
     }
 }
