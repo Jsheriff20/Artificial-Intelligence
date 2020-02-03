@@ -1,0 +1,11 @@
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\AI_house_location_scorer.exe.config
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\AI_house_location_scorer.exe
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\AI_house_location_scorer.pdb
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\obj\Debug\AI_house_location_scorer.csprojAssemblyReference.cache
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\obj\Debug\AI_house_location_scorer.aspects_to_monitor.resources
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\obj\Debug\AI_house_location_scorer.enter_details.resources
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\obj\Debug\AI_house_location_scorer.Properties.Resources.resources
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\obj\Debug\AI_house_location_scorer.csproj.GenerateResource.cache
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\obj\Debug\AI_house_location_scorer.csproj.CoreCompileInputs.cache
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\obj\Debug\AI_house_location_scorer.exe
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\obj\Debug\AI_house_location_scorer.pdb

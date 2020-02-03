@@ -17,19 +17,11 @@ namespace AI_house_location_scorer
             InitializeComponent();
         }
 
-        private void textBox4_TextChanged(object sender, EventArgs e)
+        private void btn_next_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void enter_details_Load(object sender, EventArgs e)
-        {
-
+            aspects_to_monitor next_form = new aspects_to_monitor();
+            next_form.Show();
+            this.Hide();
         }
     }
 }

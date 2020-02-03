@@ -52,6 +52,12 @@
     <Compile Include="aspects_to_monitor.Designer.cs">
       <DependentUpon>aspects_to_monitor.cs</DependentUpon>
     </Compile>
+    <Compile Include="calculate_results.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="calculate_results.Designer.cs">
+      <DependentUpon>calculate_results.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,6 +68,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="aspects_to_monitor.resx">
       <DependentUpon>aspects_to_monitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="calculate_results.resx">
+      <DependentUpon>calculate_results.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
