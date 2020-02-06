@@ -13,7 +13,7 @@ using BingMapsRESTToolkit;
 //
 //    var welcome = Welcome.FromJson(jsonString);
 
-namespace QuickType
+namespace distance_between_two_points_namespace
 {
     using System;
     using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace QuickType
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
-    public partial class Welcome
+    public partial class distance_between_two_points
     {
         [JsonProperty("resourceSets")]
         public List<ResourceSet> ResourceSets { get; set; }
@@ -82,14 +82,14 @@ namespace QuickType
         public double TravelDuration { get; set; }
     }
 
-    public partial class Welcome
+    public partial class distance_between_two_points
     {
-        public static Welcome FromJson(string json) => JsonConvert.DeserializeObject<Welcome>(json, QuickType.Converter.Settings);
+        public static distance_between_two_points FromJson(string json) => JsonConvert.DeserializeObject<distance_between_two_points>(json, distance_between_two_points_namespace.Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this Welcome self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
+        public static string ToJson(this distance_between_two_points self) => JsonConvert.SerializeObject(self, distance_between_two_points_namespace.Converter.Settings);
     }
 
     internal static class Converter
