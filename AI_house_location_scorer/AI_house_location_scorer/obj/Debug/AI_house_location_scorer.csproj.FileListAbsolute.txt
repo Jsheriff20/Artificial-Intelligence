@@ -26,3 +26,13 @@ C:\Users\jacka\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house
 C:\Users\jacka\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\Newtonsoft.Json.dll
 C:\Users\jacka\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\PoliceUK.dll
 C:\Users\jacka\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\PoliceUK.dll
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\RestSharp.dll
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\RestSharp.xml
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\obj\Debug\AI_house_location_scorer.calculate_results.resources
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\obj\Debug\AI_house_location_scorer.csproj.CopyComplete
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\BingMapsRESTToolkit.dll
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\BingMapsRESTToolkit.pdb
+C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\BingMapsRESTToolkit.xml

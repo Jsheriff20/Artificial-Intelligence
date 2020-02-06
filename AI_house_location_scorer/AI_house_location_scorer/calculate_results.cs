@@ -13,6 +13,10 @@ using PoliceUk.Entities.StreetLevel;
 using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Serialization.Json;
+using Newtonsoft.Json.Linq;
+using QuickType;
+using Newtonsoft.Json;
+using BingMapsRESTToolkit;
 
 namespace AI_house_location_scorer
 {
@@ -47,10 +51,28 @@ namespace AI_house_location_scorer
             return long_and_lat;
         }
 
+        //int number_of_nearby_places()
+        //{
 
+
+        //}
+
+
+
+        void measure_weather(string postcode)
+        {
+            //gets current date
+
+            //removes 30 days off current date
+
+            //api get data from the weather api from the perevious 30 days
+
+            //measure different weather values 
+
+        } 
 
         //returns distance between two points via roads in KM (requires long and lat of both start and end points) 
-        string get_car_distance_between_two_points(string[] start_point, string[] end_point)
+        double get_car_distance_between_two_points(string[] start_point, string[] end_point)
         {
             string start_point_lat = start_point[0].ToString();
             string start_point_long = start_point[1].ToString();
@@ -58,25 +80,23 @@ namespace AI_house_location_scorer
             string end_point_long = end_point[1].ToString();
             string key = "c4KS0Km05Xs8ondgP5Zc~lkdQr73GTTjDT_MbverZjQ~AnONN35zZHkE8U9WpqwmS_ESLNYL-drcWCibvMfmynWAi0Urwbip4pYO0jDRi7wH";
 
-            string uri = "DistanceMatrix?origins=" + start_point_lat + "," + start_point_long + "&destinations=" + end_point_lat + "," + end_point_long + "&travelMode=driving&key=" + key;
+            //build url
+            string url = "DistanceMatrix?origins=" + start_point_lat + "," + start_point_long + "&destinations=" + end_point_lat + "," + end_point_long + "&travelMode=driving&key=" + key;
+            
             //request api json data
             var client = new RestClient("https://dev.virtualearth.net/REST/v1/Routes/");
-            var request = new RestRequest(uri, Method.GET);
+            var request = new RestRequest(url, Method.GET);
 
-            //get response and decode it
+            //get response and deserialise it into a string
             var response = client.Execute(request);
             JsonDeserializer deserialise = new JsonDeserializer();
-            var json_response = deserialise.Deserialize<Dictionary<string, string>>(response);
+            string json_response = deserialise.Deserialize<string>(response);
 
+            //get json and get the value we need (TavelDistance)
+            var json = Welcome.FromJson(json_response);
+            double travel_distance = json.ResourceSets[0].Resources[0].Results[0].TravelDistance;
 
-            //encode result into json array then decode the inner array
-            IRestResponse rest_response = new RestResponse {Content = json_response["resourceSets"]};
-            var decoded_response = deserialise.Deserialize<Dictionary<string, string>>(rest_response); //the rest_response value ends up having content with square brackets (works fine when these first pair of square brackets are removed)
-
-
-
-            //return longitude & latitude array
-            string travel_distance = decoded_response["travelDistance"];
+            //return value
             return travel_distance;
         }
 
