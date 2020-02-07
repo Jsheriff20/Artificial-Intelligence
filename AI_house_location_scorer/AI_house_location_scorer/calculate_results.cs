@@ -16,6 +16,7 @@ using RestSharp.Serialization.Json;
 using Newtonsoft.Json.Linq;
 using distance_between_two_points_namespace;
 using number_of_nearby_places_namespace;
+using flood_risk_analysis;
 using Newtonsoft.Json;
 using BingMapsRESTToolkit;
 
@@ -52,6 +53,40 @@ namespace AI_house_location_scorer
             return long_and_lat;
         }
 
+
+
+        //will get the number of flood risk areas surrounding a post code
+        int number_of_flood_risk_areas(string postcode)
+        {
+            int number_of_flood_risk_areas = 0;
+
+            //get longitude and latitude from postcode
+            string[] long_and_lat = get_postcode_long_and_lat(postcode);
+            string longitude = long_and_lat[0];
+            string latitude = long_and_lat[1];
+
+
+
+            //build url
+            string url = "floodAreas?lat=" + latitude + "&long=" + longitude + "&dist=0.1";
+
+            //request api json data
+            var client = new RestClient("https://environment.data.gov.uk/flood-monitoring/id/");
+            var request = new RestRequest(url, Method.GET);
+
+            //get response and deserialise it into a string
+            var response = client.Execute(request);
+            JsonDeserializer deserialise = new JsonDeserializer();
+            string json_response = deserialise.Deserialize<string>(response);
+
+            //get json and get the value we need (how mant flood areas nearby)
+            var json = FloodRiskAssesment.FromJson(json_response);
+            number_of_flood_risk_areas = json.Items.Count;
+
+            return number_of_flood_risk_areas;
+        }
+
+
         int number_of_nearby_places(string place_type, string postcode, string how_close_in_sec)
         {
             int number_of_places = 0;
@@ -74,7 +109,7 @@ namespace AI_house_location_scorer
             JsonDeserializer deserialise = new JsonDeserializer();
             string json_response = deserialise.Deserialize<string>(response);
 
-            //get json and get the value we need (TavelDistance)
+            //get json and get the value we need (number of places nearby)
             var json = number_of_nearby_places_var.FromJson(json_response);
             number_of_places = json.ResourceSets[0].Resources[0].CategoryTypeResults[0].Entities.Count;
 
