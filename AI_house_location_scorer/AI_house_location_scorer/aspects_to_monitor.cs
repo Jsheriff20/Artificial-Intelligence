@@ -43,7 +43,6 @@ namespace AI_house_location_scorer
         {
             //calcuates the toal percentage across all numericUpDown inputs
             calculate_total_percentage(Decimal.ToInt16(nud_average_price.Value),
-                Decimal.ToInt16(nud_distance_from_school.Value),
                 Decimal.ToInt16(nud_distance_from_work.Value),
                 Decimal.ToInt16(nud_download_speed.Value),
                 Decimal.ToInt16(nud_illegal_activity.Value),
@@ -53,7 +52,6 @@ namespace AI_house_location_scorer
             if (txt_total_percentage.Text == "100%")
             {
                 nud_average_price.Maximum = nud_average_price.Value;
-                nud_distance_from_school.Maximum = nud_distance_from_school.Value;
                 nud_distance_from_work.Maximum = nud_distance_from_work.Value;
                 nud_download_speed.Maximum = nud_download_speed.Value;
                 nud_illegal_activity.Maximum = nud_illegal_activity.Value;
@@ -62,7 +60,6 @@ namespace AI_house_location_scorer
             else
             {
                 nud_average_price.Maximum = 100;
-                nud_distance_from_school.Maximum = 100;
                 nud_distance_from_work.Maximum = 100;
                 nud_download_speed.Maximum = 100;
                 nud_illegal_activity.Maximum = 100;

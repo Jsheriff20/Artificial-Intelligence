@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 //
 //    var floodRiskAssesment = FloodRiskAssesment.FromJson(jsonString);
 
-namespace QuickType
+namespace flood_risk_analysis_namespace
 {
     using System;
     using System.Collections.Generic;
@@ -99,12 +99,12 @@ namespace QuickType
 
     public partial class FloodRiskAssesment
     {
-        public static FloodRiskAssesment FromJson(string json) => JsonConvert.DeserializeObject<FloodRiskAssesment>(json, QuickType.Converter.Settings);
+        public static FloodRiskAssesment FromJson(string json) => JsonConvert.DeserializeObject<FloodRiskAssesment>(json, flood_risk_analysis_namespace.Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this FloodRiskAssesment self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
+        public static string ToJson(this FloodRiskAssesment self) => JsonConvert.SerializeObject(self, flood_risk_analysis_namespace.Converter.Settings);
     }
 
     internal static class Converter

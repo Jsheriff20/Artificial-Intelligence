@@ -79,12 +79,14 @@
       <DependentUpon>calculate_results.cs</DependentUpon>
     </Compile>
     <Compile Include="Dictionary.cs" />
+    <Compile Include="flood_risk_analysis.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="get_score_class.cs" />
     <Compile Include="number_of_nearby_places.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
