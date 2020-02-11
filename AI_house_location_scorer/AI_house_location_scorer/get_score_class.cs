@@ -17,7 +17,7 @@ namespace AI_house_location_scorer
                 case 0:
                     return 1.0;
 
-                case var expression when (number_of_flood_risk_areas > 0 && number_of_flood_risk_areas <= 2):
+                case var expression when (number_of_flood_risk_areas <= 2):
                     return 0.8;
 
                 case var expression when (number_of_flood_risk_areas > 2 && number_of_flood_risk_areas <= 4):
@@ -34,7 +34,7 @@ namespace AI_house_location_scorer
             }
         }
 
-        public double get_illegal_activity(List<String> crimes_list)
+        public double get_illegal_activity_score(List<String> crimes_list)
         {
             double number_of_crimes = crimes_list.Count();
             double score_of_all_crimes = 0;
@@ -94,13 +94,13 @@ namespace AI_house_location_scorer
 
                 score_of_all_crimes += 0.05 * multiplier;
 
-                if(count >= (multiplier * 40))
+                if (count >= (multiplier * 40))
                 {
                     if (multiplier < 5)
                     {
                         multiplier++;
                     }
-                    else if(multiplier < 10)
+                    else if (multiplier < 10)
                     {
                         multiplier += 0.5;
                     }
@@ -118,5 +118,115 @@ namespace AI_house_location_scorer
 
             return Math.Round(average_score_of_crimes, 2);
         }
+
+
+        //pairs with the get_car_distance_between_two_points_via_driving() function
+        public double get_distance_from_work_score(double distance)
+        {
+            switch (distance)
+            {
+                case var expression when (distance < 1.6):
+                    return 1.0;
+
+                case var expression when (distance >= 1.6 && distance < 3.2):
+                    return 0.8;
+
+                case var expression when (distance >= 3.2 && distance < 8):
+                    return 0.6;
+
+                case var expression when (distance >= 8 && distance < 16.1):
+                    return 0.4;
+
+                case var expression when (distance >= 16.1 && distance < 40.2):
+                    return 0.2;
+
+                default:
+                    return 0.0;
+            }
+        }
+
+
+
+        //pairs with the get_distance_to_nearest_places() function with the time unit specified as seconds
+        public double get_distance_from_a_movie_theater_score(int distance_time)
+        {
+            switch (distance_time)
+            {
+                case var expression when (distance_time < 180):
+                    return 1.0;
+
+                case var expression when (distance_time >= 180 && distance_time < 300):
+                    return 0.8;
+
+                case var expression when (distance_time >= 300 && distance_time < 480):
+                    return 0.6;
+
+                case var expression when (distance_time >= 480 && distance_time < 660):
+                    return 0.4;
+
+                case var expression when (distance_time >= 660 && distance_time < 900):
+                    return 0.2;
+
+                default:
+                    return 0.0;
+            }
+        }
+
+
+
+        //pairs with the get_distance_to_nearest_places() function with the time unit specified as minutes
+        public double get_distance_from_a_hospital_score(int distance_time)
+        {
+            switch (distance_time)
+            {
+                case var expression when (distance_time < 20):
+                    return 1.0;
+
+                //33 being urban areas average
+                case var expression when (distance_time >= 20 && distance_time < 33):
+                    return 0.8;
+
+                case var expression when (distance_time >= 33 && distance_time < 43):
+                    return 0.6;
+
+                //57 being rural areas average
+                case var expression when (distance_time >= 43 && distance_time < 57):
+                    return 0.4;
+
+                case var expression when (distance_time >= 57 && distance_time < 80):
+                    return 0.2;
+
+                default:
+                    return 0.0;
+            }
+        }
+
+
+
+        //pairs with the get_distance_to_nearest_places() function with the time unit specified as minutes
+        public double get_distance_from_a_school_center_score(int distance_time)
+        {
+            switch (distance_time)
+            {
+                case var expression when (distance_time < 5):
+                    return 1.0;
+
+                case var expression when (distance_time >= 5 && distance_time < 10):
+                    return 0.8;
+
+                case var expression when (distance_time >= 10 && distance_time < 15):
+                    return 0.6;
+
+                case var expression when (distance_time >= 15 && distance_time < 20):
+                    return 0.4;
+
+                case var expression when (distance_time >= 20 && distance_time < 25):
+                    return 0.2;
+
+                default:
+                    return 0.0;
+            }
+        }
+
     }
 }
