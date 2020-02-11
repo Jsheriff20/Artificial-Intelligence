@@ -72,6 +72,7 @@
     <Compile Include="aspects_to_monitor.Designer.cs">
       <DependentUpon>aspects_to_monitor.cs</DependentUpon>
     </Compile>
+    <Compile Include="average_weather_temp_class.cs" />
     <Compile Include="calculate_results.cs">
       <SubType>Form</SubType>
     </Compile>

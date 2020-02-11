@@ -17,6 +17,7 @@ using Newtonsoft.Json.Linq;
 using distance_between_two_points_namespace;
 using number_of_nearby_places_namespace;
 using flood_risk_analysis_namespace;
+using average_weather_temp_namespace;
 using Newtonsoft.Json;
 using BingMapsRESTToolkit;
 
@@ -53,6 +54,8 @@ namespace AI_house_location_scorer
             return long_and_lat;
         }
 
+
+
         string get_city_name(string postcode)
         {
             //request api json data
@@ -77,6 +80,103 @@ namespace AI_house_location_scorer
             string city = decoded_response["admin_district"];
             return city;
         }
+
+
+
+
+        string[] get_average_weather_temps(string postcode)
+        {
+            string[] highest_and_lowest = new string[2];
+
+            DateTime start_date = DateTime.Now.AddMonths(-36);
+            string start_date_str = start_date.ToString("yyyy-MM-dd");
+            DateTime end_date = DateTime.Now.AddMonths(-36).AddDays(59);
+            string end_date_str = end_date.ToString("yyyy-MM-dd");
+
+            int total_highest_weather_temp = 0;
+            int total_lowest_weather_temp = 0;
+
+            //get current iterations start and end dates
+            DateTime current_date = start_date;
+            DateTime current_end_date = start_date.AddMonths(12);
+
+            for (int i = 0; i < 3; i++)
+            {
+                //reset current record temps
+                int current_highest_temp = 0;
+                int current_lowest_temp = 0;
+
+                while (current_date < current_end_date)
+                {
+                    //build url
+                    string url = "historical?access_key=bd0825bb618b97237f5a30ede05f5acc&query=" + postcode + "&historical_date_start=" + start_date_str + "&historical_date_end=" + end_date_str;
+
+                    //request api json data
+                    var client = new RestClient("https://api.weatherstack.com/");
+                    var request = new RestRequest(url, Method.GET);
+
+
+                    //get response and deserialise it into a string
+                    var response = client.Execute(request);
+                    JsonDeserializer deserialise = new JsonDeserializer();
+                    string json_response = deserialise.Deserialize<string>(response);
+
+
+                    for (int j = 0; j < 59; j++)
+                    {
+                        //if the date that is currently being viewed is younger than 7 days exit the loop (this allows for bank holidays mondays and days where data may not be recorded)
+                        if (current_date >= DateTime.Now.AddDays(-7))
+                        {
+                            break;
+                        }
+
+
+                        //get json and get the value we need (number of places nearby)
+                        var json = AverageWeatherTemp.FromJson(json_response);
+                        try
+                        {
+                            //get temp data for a specific date from a request 
+                            string max_temp = json.Historical[current_date.ToString("yyyy-MM-dd")].Maxtemp.ToString();
+                            string min_temp = json.Historical[current_date.ToString("yyyy-MM-dd")].Mintemp.ToString();
+
+                            //update current years record temps
+                            if (Convert.ToInt32(min_temp) < current_lowest_temp) current_lowest_temp = Convert.ToInt32(min_temp);
+                            if (Convert.ToInt32(max_temp) > current_highest_temp) current_highest_temp = Convert.ToInt32(max_temp);
+                        }
+                        catch (Exception exp)
+                        {
+                            Console.WriteLine(exp);
+                        }
+                        current_date = current_date.AddDays(1);
+                    }
+                    //if the date that is currently being viewed is younger than 7 days exit the loop (this allows for bank holidays mondays and days where data may not be recorded)
+                    if (current_date >= DateTime.Now.AddDays(-7) || end_date >= DateTime.Now.AddDays(-7))
+                    {
+                        break;
+                    }
+
+
+                    //adjust start and end dates for next iteration
+                    start_date = start_date.AddDays(59);
+                    end_date = end_date.AddDays(59);
+                    start_date_str = start_date.ToString("yyyy-MM-dd");
+                    end_date_str = end_date.ToString("yyyy-MM-dd");
+                }
+                //add temps together to get total
+                total_highest_weather_temp += current_highest_temp;
+                total_lowest_weather_temp += current_lowest_temp;
+                Console.WriteLine("highest " + total_highest_weather_temp);
+                Console.WriteLine("lowest " + total_lowest_weather_temp);
+                current_end_date = current_end_date.AddMonths(12);
+            }
+
+            //work out average temps
+            highest_and_lowest[0] = (total_highest_weather_temp / 3).ToString();
+            highest_and_lowest[1] = (total_lowest_weather_temp / 3).ToString();
+            return highest_and_lowest;
+        }
+
+
 
 
 
@@ -110,6 +210,8 @@ namespace AI_house_location_scorer
 
             return number_of_flood_risk_areas;
         }
+
+
 
 
         int get_number_of_nearby_places(string place_type, string postcode, string how_close_in_sec_via_driving)
@@ -227,7 +329,10 @@ namespace AI_house_location_scorer
         private void calculate_results_Load(object sender, EventArgs e)
         {
 
-            List<String> crimes_list = get_recorded_crimes_in_area("ne389ex");
+            //Console.WriteLine(get_average_weather_temps("ne389ex")[0]);
+            //Console.WriteLine(get_average_weather_temps("ne389ex")[1]);
+
+            List<String> crimes_list = get_recorded_crimes_in_area("CM1 4TS");
             get_score_class get_scores = new get_score_class();
             Console.WriteLine(get_scores.get_illegal_activity(crimes_list));
 
