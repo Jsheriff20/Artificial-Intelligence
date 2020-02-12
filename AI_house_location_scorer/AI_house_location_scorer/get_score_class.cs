@@ -34,7 +34,7 @@ namespace AI_house_location_scorer
             }
         }
 
-        public double get_illegal_activity_score(List<String> crimes_list)
+        private double get_illegal_activity_points(List<String> crimes_list)
         {
             double number_of_crimes = crimes_list.Count();
             double score_of_all_crimes = 0;
@@ -120,6 +120,46 @@ namespace AI_house_location_scorer
         }
 
 
+        //pairs with the get_illegal_activity_points() function
+        public double get_illegal_activity_score(double average_score_of_crimes)
+        {
+            switch (average_score_of_crimes)
+            {
+                case var expression when (average_score_of_crimes < 0.65):
+                    return 1.0;
+
+                case var expression when (average_score_of_crimes >= 0.65 && average_score_of_crimes < 0.69):
+                    return 0.9;
+
+                case var expression when (average_score_of_crimes >= 0.69 && average_score_of_crimes < 0.72):
+                    return 0.8;
+
+                case var expression when (average_score_of_crimes >= 0.72 && average_score_of_crimes < 0.75):
+                    return 0.7;
+
+                case var expression when (average_score_of_crimes >= 0.75 && average_score_of_crimes < 0.79):
+                    return 0.6;
+
+                case var expression when (average_score_of_crimes >= 0.79 && average_score_of_crimes < 0.83):
+                    return 0.5;
+
+                case var expression when (average_score_of_crimes >= 0.83 && average_score_of_crimes < 0.86):
+                    return 0.4;
+
+                case var expression when (average_score_of_crimes >= 0.86 && average_score_of_crimes < 0.90):
+                    return 0.3;
+
+                case var expression when (average_score_of_crimes >= 0.90 && average_score_of_crimes < 0.95):
+                    return 0.2;
+
+                case var expression when (average_score_of_crimes >= 0.95 && average_score_of_crimes < 1):
+                    return 0.1;
+
+                default:
+                    return 0.0;
+            }
+        }
+
         //pairs with the get_car_distance_between_two_points_via_driving() function
         public double get_distance_from_work_score(double distance)
         {
@@ -204,7 +244,7 @@ namespace AI_house_location_scorer
 
 
         //pairs with the get_distance_to_nearest_places() function with the time unit specified as minutes
-        public double get_distance_from_a_school_center_score(int distance_time)
+        public double get_distance_from_a_shopping_center_score(int distance_time)
         {
             switch (distance_time)
             {
@@ -228,5 +268,42 @@ namespace AI_house_location_scorer
             }
         }
 
+
+        public double get_number_of_grocery_stores_score(int number)
+        {
+            switch (number)
+            {
+                case var expression when (number > 3):
+                    return 1.0;
+
+                case var expression when (number <= 3 && number > 1):
+                    return 0.7;
+
+                case var expression when (number == 1):
+                    return 0.3;
+
+                default:
+                    return 0.0;
+            }
+        }
+
+
+        public double get_number_of_restaurants_score(int distance_time)
+        {
+            switch (distance_time)
+            {
+                case var expression when (distance_time > 3):
+                    return 1.0;
+
+                case var expression when (distance_time <= 3 && distance_time > 1):
+                    return 0.7;
+
+                case var expression when (distance_time == 1):
+                    return 0.3;
+
+                default:
+                    return 0.0;
+            }
+        }
     }
 }
