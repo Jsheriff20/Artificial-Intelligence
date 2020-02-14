@@ -305,5 +305,42 @@ namespace AI_house_location_scorer
                     return 0.0;
             }
         }
+
+        public double get_number_of_parks_score(int distance_time)
+        {
+            switch (distance_time)
+            {
+                case var expression when (distance_time > 3):
+                    return 1.0;
+
+                case var expression when (distance_time <= 3 && distance_time > 1):
+                    return 0.7;
+
+                case var expression when (distance_time == 1):
+                    return 0.3;
+
+                default:
+                    return 0.0;
+            }
+        }
+
+
+        public double get_number_of_takeaways_score(int distance_time)
+        {
+            switch (distance_time)
+            {
+                case var expression when (distance_time > 4):
+                    return 1.0;
+
+                case var expression when (distance_time <= 4 && distance_time > 2):
+                    return 0.7;
+
+                case var expression when (distance_time >= 2):
+                    return 0.3;
+
+                default:
+                    return 0.0;
+            }
+        }
     }
 }

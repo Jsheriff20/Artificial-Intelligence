@@ -217,7 +217,7 @@ namespace AI_house_location_scorer
 
 
 
-        int get_distance_to_nearest_places(string place_type, string postcode, string time_unit)
+        int get_time_to_nearest_places(string place_type, string postcode, string time_unit)
         {
             int distance_to_nearest = 0;
             int number_of_places = 0;
