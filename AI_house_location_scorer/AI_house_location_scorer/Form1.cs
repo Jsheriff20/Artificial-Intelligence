@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,9 +20,19 @@ namespace AI_house_location_scorer
 
         private void btn_next_Click(object sender, EventArgs e)
         {
-            aspects_to_monitor next_form = new aspects_to_monitor();
+            dynamic data = new JObject();
+            data.house_postcode = txt_house_postcode.Text;
+            data.work_postcode = txt_works_postcode.Text;
+            data.distance_from_bar = txt_min_distance_to_bar.Text;
+
+            aspects_to_monitor next_form = new aspects_to_monitor(data);
             next_form.Show();
             this.Hide();
+        }
+
+        private void enter_details_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

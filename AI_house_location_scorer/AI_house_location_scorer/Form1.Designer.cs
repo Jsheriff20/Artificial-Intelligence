@@ -32,13 +32,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.txt_house_postcode = new System.Windows.Forms.TextBox();
             this.txt_works_postcode = new System.Windows.Forms.TextBox();
-            this.txt_download_speed = new System.Windows.Forms.TextBox();
-            this.txt__upload_speed = new System.Windows.Forms.TextBox();
+            this.txt_min_distance_to_bar = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.btn_next = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -75,18 +72,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(51, 228);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(408, 20);
+            this.label4.Size = new System.Drawing.Size(288, 20);
             this.label4.TabIndex = 4;
-            this.label4.Text = "Wanted broadband dowload speed (average is 54Mbps):";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(51, 298);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(397, 20);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "Wanted broadband upload speed (average is 22Mbps):";
+            this.label4.Text = "Minimum driving distance to nearest bar";
             // 
             // txt_house_postcode
             // 
@@ -102,37 +90,21 @@
             this.txt_works_postcode.Size = new System.Drawing.Size(127, 26);
             this.txt_works_postcode.TabIndex = 7;
             // 
-            // txt_download_speed
+            // txt_min_distance_to_bar
             // 
-            this.txt_download_speed.Location = new System.Drawing.Point(55, 251);
-            this.txt_download_speed.Name = "txt_download_speed";
-            this.txt_download_speed.Size = new System.Drawing.Size(73, 26);
-            this.txt_download_speed.TabIndex = 8;
-            // 
-            // txt__upload_speed
-            // 
-            this.txt__upload_speed.Location = new System.Drawing.Point(55, 321);
-            this.txt__upload_speed.Name = "txt__upload_speed";
-            this.txt__upload_speed.Size = new System.Drawing.Size(73, 26);
-            this.txt__upload_speed.TabIndex = 9;
+            this.txt_min_distance_to_bar.Location = new System.Drawing.Point(55, 251);
+            this.txt_min_distance_to_bar.Name = "txt_min_distance_to_bar";
+            this.txt_min_distance_to_bar.Size = new System.Drawing.Size(73, 26);
+            this.txt_min_distance_to_bar.TabIndex = 8;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(128, 254);
+            this.label6.Location = new System.Drawing.Point(132, 254);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(48, 20);
+            this.label6.Size = new System.Drawing.Size(65, 20);
             this.label6.TabIndex = 10;
-            this.label6.Text = "Mbps";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(128, 324);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(48, 20);
-            this.label7.TabIndex = 11;
-            this.label7.Text = "Mbps";
+            this.label6.Text = "Minutes";
             // 
             // btn_next
             // 
@@ -151,19 +123,17 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(894, 521);
             this.Controls.Add(this.btn_next);
-            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.txt__upload_speed);
-            this.Controls.Add(this.txt_download_speed);
+            this.Controls.Add(this.txt_min_distance_to_bar);
             this.Controls.Add(this.txt_works_postcode);
             this.Controls.Add(this.txt_house_postcode);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "enter_details";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.enter_details_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -174,13 +144,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txt_house_postcode;
         private System.Windows.Forms.TextBox txt_works_postcode;
-        private System.Windows.Forms.TextBox txt_download_speed;
-        private System.Windows.Forms.TextBox txt__upload_speed;
+        private System.Windows.Forms.TextBox txt_min_distance_to_bar;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btn_next;
     }
 }

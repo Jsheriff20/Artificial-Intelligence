@@ -282,12 +282,18 @@ namespace AI_house_location_scorer
 
 
         //returns distance between two points via roads in KM (requires long and lat of both start and end points) 
-        double get_car_distance_between_two_points_via_driving(string[] start_point, string[] end_point)
+        double get_car_distance_between_two_points_via_driving(string start_postcode, string end_postcode)
         {
-            string start_point_lat = start_point[0].ToString();
-            string start_point_long = start_point[1].ToString();
-            string end_point_lat = end_point[0].ToString();
-            string end_point_long = end_point[1].ToString();
+            //get longitude and latitude from postcode
+            string[] start_long_and_lat = get_postcode_long_and_lat(start_postcode);
+            double start_point_long = Convert.ToDouble(start_long_and_lat[0]);
+            double start_point_lat = Convert.ToDouble(start_long_and_lat[1]);
+
+
+            string[] end_long_and_lat = get_postcode_long_and_lat(end_postcode);
+            double end_point_long = Convert.ToDouble(end_long_and_lat[0]);
+            double end_point_lat = Convert.ToDouble(end_long_and_lat[1]);
+
             string key = "c4KS0Km05Xs8ondgP5Zc~lkdQr73GTTjDT_MbverZjQ~AnONN35zZHkE8U9WpqwmS_ESLNYL-drcWCibvMfmynWAi0Urwbip4pYO0jDRi7wH";
 
             //build url
@@ -356,14 +362,52 @@ namespace AI_house_location_scorer
 
 
 
-
-        public calculate_results()
+        dynamic current_data;
+        public calculate_results(dynamic data)
         {
             InitializeComponent();
+            current_data = data;
         }
+
+
+        //converts the inputed weights into a decimal 
+        double get_weighting_as_decimal(string weighting)
+        {
+            int weighting_int = Convert.ToInt32(weighting);
+
+            if(weighting_int < 10)
+            {
+                string building_weight = "0.0" + weighting_int;
+                return Convert.ToDouble(building_weight);
+            }
+            else if(weighting_int == 100)
+            {
+                return 1.0; 
+            }
+            else
+            {
+                string building_weight = "0." + weighting_int;
+                return Convert.ToDouble(building_weight);
+            }
+        }
+
+
+
 
         private void calculate_results_Load(object sender, EventArgs e)
         {
+            int final_score = 0;
+
+            //user inputs
+            string house_postcode = current_data.house_postcode;
+            string work_postcode = current_data.work_postcode;
+            double distance_from_bar = Convert.ToDouble(current_data.distance_from_bar);
+
+
+            //get data from the apis
+            List<string> crimes_list = get_recorded_crimes_in_area(house_postcode);
+            double distance_to_work = get_car_distance_between_two_points_via_driving(house_postcode, work_postcode);
+
 
             //Console.WriteLine(get_average_weather_temps("ne389ex")[0]);
             //Console.WriteLine(get_average_weather_temps("ne389ex")[1]);

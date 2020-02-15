@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -26,10 +27,12 @@ namespace AI_house_location_scorer
 
             txt_total_percentage.Text = (total.ToString() + "%");
         }
+        dynamic current_data;
 
-        public aspects_to_monitor()
+        public aspects_to_monitor(dynamic data)
         {
             InitializeComponent();
+            current_data = data;
         }
 
         private void btn_back_Click(object sender, EventArgs e)
@@ -66,7 +69,22 @@ namespace AI_house_location_scorer
 
         private void btn_get_score_Click(object sender, EventArgs e)
         {
-            calculate_results next_form = new calculate_results();
+            dynamic data = current_data;
+            data.weighting_crime = nud_illegal_activity.Value.ToString();
+            data.weighting_work_distance = nud_distance_from_work.Value.ToString();
+            data.weighting_bar_distance = nud_distance_from_a_bar.Value.ToString();
+            data.weighting_movie_theater_distance = nud_distance_from_a_movie_theater.Value.ToString();
+            data.weighting_hospital_distance = nud_distance_from_a_hospital.Value.ToString();
+            data.weighting_shopping_center_distance = nud_distance_from_a_shopping_center.Value.ToString();
+            data.weighting_flood_areas_number = nud_number_of_flood_areas.Value.ToString();
+            data.weighting_resturants_number = nud_number_of_restaurants.Value.ToString();
+            data.weighting_parks_number = nud_number_of_parks.Value.ToString();
+            data.weighting_takeaways_number = nud_number_of_takeaways.Value.ToString();
+            data.weighting_local_grocery_stores_number = nud_number_of_local_grocery_stores.Value.ToString();
+            data.weighting_museums_number = nud_number_of_museums.Value.ToString();
+            data.weighting_weather_temps = nud_weather_temp.Value.ToString();
+
+            calculate_results next_form = new calculate_results(data);
             next_form.Show();
             this.Hide();
         }

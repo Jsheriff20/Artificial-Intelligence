@@ -269,6 +269,8 @@ namespace AI_house_location_scorer
         }
 
 
+
+        //pairs with the get_distance_to_nearest_places() function with the time unit specified as minutes
         public double get_number_of_grocery_stores_score(int number)
         {
             switch (number)
@@ -288,17 +290,17 @@ namespace AI_house_location_scorer
         }
 
 
-        public double get_number_of_restaurants_score(int distance_time)
+        public double get_number_of_restaurants_score(int number)
         {
-            switch (distance_time)
+            switch (number)
             {
-                case var expression when (distance_time > 3):
+                case var expression when (number > 3):
                     return 1.0;
 
-                case var expression when (distance_time <= 3 && distance_time > 1):
+                case var expression when (number <= 3 && number > 1):
                     return 0.7;
 
-                case var expression when (distance_time == 1):
+                case var expression when (number == 1):
                     return 0.3;
 
                 default:
@@ -306,17 +308,17 @@ namespace AI_house_location_scorer
             }
         }
 
-        public double get_number_of_parks_score(int distance_time)
+        public double get_number_of_parks_score(int number)
         {
-            switch (distance_time)
+            switch (number)
             {
-                case var expression when (distance_time > 3):
+                case var expression when (number > 3):
                     return 1.0;
 
-                case var expression when (distance_time <= 3 && distance_time > 1):
+                case var expression when (number <= 3 && number > 1):
                     return 0.7;
 
-                case var expression when (distance_time == 1):
+                case var expression when (number == 1):
                     return 0.3;
 
                 default:
@@ -325,18 +327,165 @@ namespace AI_house_location_scorer
         }
 
 
-        public double get_number_of_takeaways_score(int distance_time)
+
+        public double get_number_of_takeaways_score(int number)
+        {
+            switch (number)
+            {
+                case var expression when (number > 6):
+                    return 1.0;
+
+                case var expression when (number <= 6 && number > 3):
+                    return 0.7;
+
+                case var expression when (number >= 3):
+                    return 0.3;
+
+                default:
+                    return 0.0;
+            }
+        }
+
+
+
+        public double get_distance_from_bar_score(int distance_time, double ideal_minimum)
         {
             switch (distance_time)
             {
-                case var expression when (distance_time > 4):
+                case var expression when (distance_time > ideal_minimum):
                     return 1.0;
 
-                case var expression when (distance_time <= 4 && distance_time > 2):
+                case var expression when (distance_time <= ideal_minimum && distance_time > (ideal_minimum * 0.9)):
+                    return 0.9;
+
+                case var expression when (distance_time <= (ideal_minimum * 0.9) && distance_time > (ideal_minimum * 0.8)):
+                    return 0.8;
+
+                case var expression when (distance_time <= (ideal_minimum * 0.8) && distance_time > (ideal_minimum * 0.7)):
                     return 0.7;
 
-                case var expression when (distance_time >= 2):
+                case var expression when (distance_time <= (ideal_minimum * 0.7) && distance_time > (ideal_minimum * 0.6)):
+                    return 0.6;
+
+                case var expression when (distance_time <= (ideal_minimum * 0.6) && distance_time > (ideal_minimum * 0.5)):
+                    return 0.5;
+
+                case var expression when (distance_time <= (ideal_minimum * 0.5) && distance_time > (ideal_minimum * 0.4)):
+                    return 0.4;
+
+                case var expression when (distance_time <= (ideal_minimum * 0.4) && distance_time > (ideal_minimum * 0.3)):
                     return 0.3;
+
+                case var expression when (distance_time <= (ideal_minimum * 0.3) && distance_time > (ideal_minimum * 0.2)):
+                    return 0.2;
+
+                case var expression when (distance_time <= (ideal_minimum * 0.2) && distance_time > (ideal_minimum * 0.1)):
+                    return 0.1;
+
+                default:
+                    return 0.0;
+            }
+        }
+
+
+
+        public double get_number_of_museums_score(int number)
+        {
+            switch (number)
+            {
+                case var expression when (number > 4):
+                    return 1.0;
+
+                case var expression when (number <= 4 && number > 3):
+                    return 0.75;
+
+                case var expression when (number <= 3 && number > 2):
+                    return 0.5;
+
+                case var expression when (number >= 1):
+                    return 0.25;
+
+                default:
+                    return 0.0;
+            }
+        }
+
+
+
+        public double get_max_weather_temp_score(int temp)
+        {
+            switch (temp)
+            {
+                case var expression when (temp >= 30):
+                    return 1.0;
+
+                case var expression when (temp == 29):
+                    return 0.9;
+
+                case var expression when (temp == 28 ):
+                    return 0.8;
+
+                case var expression when (temp <= 27 && temp > 25):
+                    return 0.7;
+
+                case var expression when (temp <= 25 && temp > 23):
+                    return 0.6;
+
+                case var expression when (temp <= 23 && temp > 21):
+                    return 0.5;
+
+                case var expression when (temp <= 21 && temp > 19):
+                    return 0.4;
+
+                case var expression when (temp <= 19 && temp > 17):
+                    return 0.3;
+
+                case var expression when (temp <= 17 && temp > 14):
+                    return 0.2;
+
+                case var expression when (temp >= 14):
+                    return 0.1;
+
+                default:
+                    return 0.0;
+            }
+        }
+
+
+
+        public double get_min_weather_temp_score(int temp)
+        {
+            switch (temp)
+            {
+                case var expression when (temp > 15):
+                    return 1.0;
+
+                case var expression when (temp <= 15 && temp > 13):
+                    return 0.9;
+
+                case var expression when (temp <= 13 && temp > 11):
+                    return 0.8;
+
+                case var expression when (temp <= 11 && temp > 9):
+                    return 0.7;
+
+                case var expression when (temp <= 9 && temp > 5):
+                    return 0.6;
+
+                case var expression when (temp <= 5 && temp > 2):
+                    return 0.5;
+
+                case var expression when (temp <= 2 && temp > -1):
+                    return 0.4;
+
+                case var expression when (temp <= -1 && temp > -3):
+                    return 0.3;
+
+                case var expression when (temp <= -3 && temp > -6):
+                    return 0.2;
+
+                case var expression when (temp >= -6):
+                    return 0.1;
 
                 default:
                     return 0.0;
