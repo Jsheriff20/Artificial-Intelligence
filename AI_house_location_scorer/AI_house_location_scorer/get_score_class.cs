@@ -9,7 +9,6 @@ namespace AI_house_location_scorer
     class get_score_class
     {
         //functions to get a decimal score of what an element has been scored
-
         public double get_flood_risk_score(int number_of_flood_risk_areas)
         {
             switch (number_of_flood_risk_areas)
@@ -17,22 +16,24 @@ namespace AI_house_location_scorer
                 case 0:
                     return 1.0;
 
-                case var expression when (number_of_flood_risk_areas <= 2):
+                case var expression when (number_of_flood_risk_areas == 1):
                     return 0.8;
 
-                case var expression when (number_of_flood_risk_areas > 2 && number_of_flood_risk_areas <= 4):
+                case var expression when (number_of_flood_risk_areas > 1 && number_of_flood_risk_areas <= 3):
                     return 0.6;
 
-                case var expression when (number_of_flood_risk_areas > 0 && number_of_flood_risk_areas <= 6):
+                case var expression when (number_of_flood_risk_areas > 3 && number_of_flood_risk_areas <= 5):
                     return 0.4;
 
-                case var expression when (number_of_flood_risk_areas > 0 && number_of_flood_risk_areas <= 5):
+                case var expression when (number_of_flood_risk_areas > 5 && number_of_flood_risk_areas <= 7):
                     return 0.2;
 
                 default:
                     return 0.0;
             }
         }
+
+
 
         private double get_illegal_activity_points(List<String> crimes_list)
         {
@@ -120,39 +121,43 @@ namespace AI_house_location_scorer
         }
 
 
+
         //pairs with the get_illegal_activity_points() function
-        public double get_illegal_activity_score(double average_score_of_crimes)
+        public double get_illegal_activity_score(List<String> crimes_list)
         {
+
+            double average_score_of_crimes = get_illegal_activity_points(crimes_list);
+
             switch (average_score_of_crimes)
             {
-                case var expression when (average_score_of_crimes < 0.65):
+                case var expression when (average_score_of_crimes < 0.67):
                     return 1.0;
 
-                case var expression when (average_score_of_crimes >= 0.65 && average_score_of_crimes < 0.69):
+                case var expression when (average_score_of_crimes >= 0.67 && average_score_of_crimes < 0.70):
                     return 0.9;
 
-                case var expression when (average_score_of_crimes >= 0.69 && average_score_of_crimes < 0.72):
+                case var expression when (average_score_of_crimes >= 0.70 && average_score_of_crimes < 0.73):
                     return 0.8;
 
-                case var expression when (average_score_of_crimes >= 0.72 && average_score_of_crimes < 0.75):
+                case var expression when (average_score_of_crimes >= 0.73 && average_score_of_crimes < 0.77):
                     return 0.7;
 
-                case var expression when (average_score_of_crimes >= 0.75 && average_score_of_crimes < 0.79):
+                case var expression when (average_score_of_crimes >= 0.77 && average_score_of_crimes < 0.82):
                     return 0.6;
 
-                case var expression when (average_score_of_crimes >= 0.79 && average_score_of_crimes < 0.83):
+                case var expression when (average_score_of_crimes >= 0.82 && average_score_of_crimes < 0.85):
                     return 0.5;
 
-                case var expression when (average_score_of_crimes >= 0.83 && average_score_of_crimes < 0.86):
+                case var expression when (average_score_of_crimes >= 0.85 && average_score_of_crimes < 0.89):
                     return 0.4;
 
-                case var expression when (average_score_of_crimes >= 0.86 && average_score_of_crimes < 0.90):
+                case var expression when (average_score_of_crimes >= 0.89 && average_score_of_crimes < 0.93):
                     return 0.3;
 
-                case var expression when (average_score_of_crimes >= 0.90 && average_score_of_crimes < 0.95):
+                case var expression when (average_score_of_crimes >= 0.93 && average_score_of_crimes < 0.96):
                     return 0.2;
 
-                case var expression when (average_score_of_crimes >= 0.95 && average_score_of_crimes < 1):
+                case var expression when (average_score_of_crimes >= 0.96 && average_score_of_crimes < 1):
                     return 0.1;
 
                 default:
@@ -160,25 +165,42 @@ namespace AI_house_location_scorer
             }
         }
 
+
+
         //pairs with the get_car_distance_between_two_points_via_driving() function
-        public double get_distance_from_work_score(double distance)
+        public double get_distance_to_work_score(double distance)
         {
             switch (distance)
             {
-                case var expression when (distance < 1.6):
+                case var expression when (distance < 4.8):
                     return 1.0;
 
-                case var expression when (distance >= 1.6 && distance < 3.2):
+                case var expression when (distance >= 1.6 && distance < 8.1):
+                    return 0.9;
+
+                case var expression when (distance >= 3.2 && distance < 12.9):
                     return 0.8;
 
-                case var expression when (distance >= 3.2 && distance < 8):
+                case var expression when (distance >= 12.9 && distance < 16):
+                    return 0.7;
+
+                case var expression when (distance >= 3.2 && distance < 19.3):
                     return 0.6;
 
-                case var expression when (distance >= 8 && distance < 16.1):
+                case var expression when (distance >= 3.2 && distance < 24.1):
+                    return 0.5;
+
+                case var expression when (distance >= 3.2 && distance < 27.4):
                     return 0.4;
 
-                case var expression when (distance >= 16.1 && distance < 40.2):
+                case var expression when (distance >= 3.2 && distance < 33.8):
+                    return 0.3;
+
+                case var expression when (distance >= 8 && distance < 40.2):
                     return 0.2;
+
+                case var expression when (distance >= 16.1 && distance < 48.3):
+                    return 0.1;
 
                 default:
                     return 0.0;
@@ -187,25 +209,40 @@ namespace AI_house_location_scorer
 
 
 
-        //pairs with the get_distance_to_nearest_places() function with the time unit specified as seconds
+        //pairs with the get_distance_to_nearest_places() function with the time unit specified as minutes
         public double get_distance_from_a_movie_theater_score(int distance_time)
         {
             switch (distance_time)
             {
-                case var expression when (distance_time < 180):
+                case var expression when (distance_time < 3):
                     return 1.0;
 
-                case var expression when (distance_time >= 180 && distance_time < 300):
+                case var expression when (distance_time >= 3 && distance_time < 5):
+                    return 0.9;
+
+                case var expression when (distance_time >= 5 && distance_time < 7):
                     return 0.8;
 
-                case var expression when (distance_time >= 300 && distance_time < 480):
+                case var expression when (distance_time >= 7 && distance_time < 9):
+                    return 0.7;
+
+                case var expression when (distance_time >= 9 && distance_time < 11):
                     return 0.6;
 
-                case var expression when (distance_time >= 480 && distance_time < 660):
+                case var expression when (distance_time >= 11 && distance_time < 14):
+                    return 0.5;
+
+                case var expression when (distance_time >= 14 && distance_time < 18):
                     return 0.4;
 
-                case var expression when (distance_time >= 660 && distance_time < 900):
+                case var expression when (distance_time >= 18 && distance_time < 23):
+                    return 0.3;
+
+                case var expression when (distance_time >= 23 && distance_time < 27):
                     return 0.2;
+
+                case var expression when (distance_time >= 27 && distance_time < 32):
+                    return 0.1;
 
                 default:
                     return 0.0;
@@ -222,19 +259,34 @@ namespace AI_house_location_scorer
                 case var expression when (distance_time < 20):
                     return 1.0;
 
-                //33 being urban areas average
-                case var expression when (distance_time >= 20 && distance_time < 33):
+                case var expression when (distance_time >= 20 && distance_time < 26):
+                    return 0.9;
+
+                case var expression when (distance_time >= 26 && distance_time < 33):
                     return 0.8;
 
-                case var expression when (distance_time >= 33 && distance_time < 43):
+                //33 being urban areas average
+                case var expression when (distance_time >= 33 && distance_time < 41):
+                    return 0.7;
+
+                case var expression when (distance_time >= 41 && distance_time < 49):
                     return 0.6;
 
+                case var expression when (distance_time >= 49 && distance_time < 57):
+                    return 0.5;
+                    
                 //57 being rural areas average
-                case var expression when (distance_time >= 43 && distance_time < 57):
+                case var expression when (distance_time >= 57 && distance_time < 64):
                     return 0.4;
 
-                case var expression when (distance_time >= 57 && distance_time < 80):
+                case var expression when (distance_time >= 64 && distance_time < 71):
+                    return 0.3;
+
+                case var expression when (distance_time >= 71 && distance_time < 80):
                     return 0.2;
+
+                case var expression when (distance_time >= 80 && distance_time < 90):
+                    return 0.1;
 
                 default:
                     return 0.0;
@@ -251,17 +303,32 @@ namespace AI_house_location_scorer
                 case var expression when (distance_time < 5):
                     return 1.0;
 
-                case var expression when (distance_time >= 5 && distance_time < 10):
+                case var expression when (distance_time >= 5 && distance_time < 8):
+                    return 0.9;
+
+                case var expression when (distance_time >= 8 && distance_time < 12):
                     return 0.8;
 
-                case var expression when (distance_time >= 10 && distance_time < 15):
+                case var expression when (distance_time >= 12 && distance_time < 15):
+                    return 0.7;
+
+                case var expression when (distance_time >= 15 && distance_time < 18):
                     return 0.6;
 
-                case var expression when (distance_time >= 15 && distance_time < 20):
+                case var expression when (distance_time >= 23 && distance_time < 23):
+                    return 0.5;
+
+                case var expression when (distance_time >= 28 && distance_time < 28):
                     return 0.4;
 
-                case var expression when (distance_time >= 20 && distance_time < 25):
+                case var expression when (distance_time >= 34 && distance_time < 34):
+                    return 0.3;
+
+                case var expression when (distance_time >= 40 && distance_time < 40):
                     return 0.2;
+
+                case var expression when (distance_time >= 45 && distance_time < 45):
+                    return 0.1;
 
                 default:
                     return 0.0;
@@ -275,38 +342,53 @@ namespace AI_house_location_scorer
         {
             switch (number)
             {
-                case var expression when (number > 3):
+                case var expression when (number > 4):
                     return 1.0;
 
-                case var expression when (number <= 3 && number > 1):
-                    return 0.7;
+                case var expression when (number == 4):
+                    return 0.8;
+
+                case var expression when (number == 3):
+                    return 0.6;
+
+                case var expression when (number == 2):
+                    return 0.4;
 
                 case var expression when (number == 1):
-                    return 0.3;
+                    return 0.2;
 
                 default:
                     return 0.0;
             }
         }
+
 
 
         public double get_number_of_restaurants_score(int number)
         {
             switch (number)
             {
-                case var expression when (number > 3):
+                case var expression when (number > 7):
                     return 1.0;
 
+                case var expression when (number <= 7 && number > 5):
+                    return 0.8;
+
+                case var expression when (number <= 5 && number > 3):
+                    return 0.6;
+
                 case var expression when (number <= 3 && number > 1):
-                    return 0.7;
+                    return 0.4;
 
                 case var expression when (number == 1):
-                    return 0.3;
+                    return 0.2;
 
                 default:
                     return 0.0;
             }
         }
+
+
 
         public double get_number_of_parks_score(int number)
         {
@@ -335,11 +417,17 @@ namespace AI_house_location_scorer
                 case var expression when (number > 6):
                     return 1.0;
 
-                case var expression when (number <= 6 && number > 3):
-                    return 0.7;
+                case var expression when (number == 6):
+                    return 0.8;
 
-                case var expression when (number >= 3):
-                    return 0.3;
+                case var expression when (number <= 5 && number > 3):
+                    return 0.6;
+
+                case var expression when (number <= 3 && number > 1):
+                    return 0.4;
+
+                case var expression when (number == 1):
+                    return 0.2;
 
                 default:
                     return 0.0;
@@ -396,13 +484,13 @@ namespace AI_house_location_scorer
                 case var expression when (number > 4):
                     return 1.0;
 
-                case var expression when (number <= 4 && number > 3):
+                case var expression when (number == 4 || number == 3):
                     return 0.75;
 
-                case var expression when (number <= 3 && number > 2):
+                case var expression when (number == 2):
                     return 0.5;
 
-                case var expression when (number >= 1):
+                case var expression when (number == 1):
                     return 0.25;
 
                 default:
@@ -443,7 +531,7 @@ namespace AI_house_location_scorer
                 case var expression when (temp <= 17 && temp > 14):
                     return 0.2;
 
-                case var expression when (temp >= 14):
+                case var expression when (temp == 14):
                     return 0.1;
 
                 default:
@@ -457,34 +545,34 @@ namespace AI_house_location_scorer
         {
             switch (temp)
             {
-                case var expression when (temp > 15):
+                case var expression when (temp > 6):
                     return 1.0;
 
-                case var expression when (temp <= 15 && temp > 13):
+                case var expression when (temp <= 6 && temp > 5):
                     return 0.9;
 
-                case var expression when (temp <= 13 && temp > 11):
+                case var expression when (temp <= 5 && temp > 4):
                     return 0.8;
 
-                case var expression when (temp <= 11 && temp > 9):
+                case var expression when (temp <= 4 && temp > 2):
                     return 0.7;
 
-                case var expression when (temp <= 9 && temp > 5):
+                case var expression when (temp <= 2 && temp > 0):
                     return 0.6;
 
-                case var expression when (temp <= 5 && temp > 2):
+                case var expression when (temp <= 0 && temp > -2):
                     return 0.5;
 
-                case var expression when (temp <= 2 && temp > -1):
+                case var expression when (temp <= -2 && temp > -5):
                     return 0.4;
 
-                case var expression when (temp <= -1 && temp > -3):
+                case var expression when (temp <= -5 && temp > -7):
                     return 0.3;
 
-                case var expression when (temp <= -3 && temp > -6):
+                case var expression when (temp <= -7 && temp > -9):
                     return 0.2;
 
-                case var expression when (temp >= -6):
+                case var expression when (temp == -9):
                     return 0.1;
 
                 default:

@@ -217,7 +217,7 @@ namespace AI_house_location_scorer
 
 
 
-        int get_time_to_nearest_places(string place_type, string postcode, string time_unit)
+        int get_time_to_nearest_place(string place_type, string postcode, string time_unit)
         {
             int distance_to_nearest = 0;
             int number_of_places = 0;
@@ -227,18 +227,27 @@ namespace AI_house_location_scorer
             string longitude = long_and_lat[0];
             string latitude = long_and_lat[1];
             string key = "c4KS0Km05Xs8ondgP5Zc~lkdQr73GTTjDT_MbverZjQ~AnONN35zZHkE8U9WpqwmS_ESLNYL-drcWCibvMfmynWAi0Urwbip4pYO0jDRi7wH";
-           
-            
+
+
             //dynamic variables
-            int how_close_in_sec_via_driving = 100;
+            int how_close_via_driving;
+            if (time_unit == "second")
+            {
+                how_close_via_driving = 100;
+            }
+            else
+            {
+                how_close_via_driving = 10;
+            }
+
             bool found_closest = false;
-            int thirty_count = 0;
+            int count = 0;
 
             //find the distance to the closest specified place
             while (!found_closest)
             {
                 //build url
-                string url = "LocalInsights?waypoint=" + latitude + "," + longitude + "&maxTime=" + how_close_in_sec_via_driving.ToString() + "&timeUnit=" + time_unit + "&type=" + place_type + "&key=" + key;
+                string url = "LocalInsights?waypoint=" + latitude + "," + longitude + "&maxTime=" + how_close_via_driving.ToString() + "&timeUnit=" + time_unit + "&type=" + place_type + "&key=" + key;
 
                 //request api json data
                 var client = new RestClient("https://dev.virtualearth.net/REST/v1/Routes/");
@@ -253,25 +262,69 @@ namespace AI_house_location_scorer
                 var json = number_of_nearby_places_var.FromJson(json_response);
                 number_of_places = json.ResourceSets[0].Resources[0].CategoryTypeResults[0].Entities.Count();
 
-                if(number_of_places == 1)
+                if (time_unit == "second")
                 {
-                    found_closest = true;
-                    distance_to_nearest = how_close_in_sec_via_driving;
-                }
-                else if(number_of_places > 1)
-                {
-                    //this if statement will prevent an endless loop
-                    if(thirty_count >= 3)
+                    if (number_of_places == 1)
                     {
                         found_closest = true;
-                        distance_to_nearest = how_close_in_sec_via_driving;
+                        distance_to_nearest = how_close_via_driving;
                     }
-                    how_close_in_sec_via_driving -= 30;
-                    thirty_count++;
+                    else if (number_of_places > 1)
+                    {
+                        //this if statement will prevent an endless loop
+                        if (count >= 3)
+                        {
+                            found_closest = true;
+                            distance_to_nearest = how_close_via_driving;
+                        }
+                        how_close_via_driving -= 30;
+                        count++;
+                    }
+                    else
+                    {
+                        if (how_close_via_driving == 900)
+                        {
+                            how_close_via_driving += 99;
+                        }
+                        else if (how_close_via_driving == 999)
+                        {
+                            found_closest = true;
+                        }
+                        else
+                        {
+                            how_close_via_driving += 100;
+                        }
+                    }
                 }
                 else
                 {
-                    how_close_in_sec_via_driving += 100;
+                    if (number_of_places == 1)
+                    {
+                        found_closest = true;
+                        distance_to_nearest = how_close_via_driving;
+                    }
+                    else if (number_of_places > 1)
+                    {
+                        //this if statement will prevent an endless loop
+                        if (count >= 3)
+                        {
+                            found_closest = true;
+                            distance_to_nearest = how_close_via_driving;
+                        }
+                        how_close_via_driving -= 1;
+                        count++;
+                    }
+                    else
+                    {
+                        if (how_close_via_driving == 60)
+                        {
+                            found_closest = true;
+                        }
+                        else
+                        {
+                            how_close_via_driving += 10;
+                        }
+                    }
                 }
             }
 
@@ -396,35 +449,121 @@ namespace AI_house_location_scorer
 
         private void calculate_results_Load(object sender, EventArgs e)
         {
-            int final_score = 0;
+            double final_score = 0.0;
+
 
             //user inputs
             string house_postcode = current_data.house_postcode;
             string work_postcode = current_data.work_postcode;
-            double distance_from_bar = Convert.ToDouble(current_data.distance_from_bar);
+            double distance_from_bar_ideally = Convert.ToDouble(current_data.distance_from_bar);
 
 
             //get data from the apis
             List<string> crimes_list = get_recorded_crimes_in_area(house_postcode);
             double distance_to_work = get_car_distance_between_two_points_via_driving(house_postcode, work_postcode);
+            int time_to_nearest_bar = get_time_to_nearest_place("Bars", house_postcode, "minute");
+            int time_to_nearest_movie_theater = get_time_to_nearest_place("MovieTheaters", house_postcode, "minute");
+            int time_to_nearest_hospital = get_time_to_nearest_place("Hospitals", house_postcode, "minute");
+            int time_to_nearest_shopping_center = get_time_to_nearest_place("MallsAndShoppingCenters", house_postcode, "minute");
+            int number_of_flood_risk_areas = get_number_of_flood_risk_areas(house_postcode);
+            int number_of_restaurants = get_number_of_nearby_places("Restaurants", house_postcode, "7", "minute");
+            int number_of_parks = get_number_of_nearby_places("Parks", house_postcode, "10", "minute");
+            int number_of_takeaways = get_number_of_nearby_places("TakeAway", house_postcode, "10", "minute");
+            int number_of_local_grocery_stores = get_number_of_nearby_places("Grocers", house_postcode, "4", "minute");
+            int number_of_museums = get_number_of_nearby_places("Museums", house_postcode, "15", "minute");
+            string[] weather_temp = get_average_weather_temps(house_postcode);
+            int weather_temp_max = Convert.ToInt32(weather_temp[0]);
+            int weather_temp_min = Convert.ToInt32(weather_temp[1]);
 
 
-            //Console.WriteLine(get_average_weather_temps("ne389ex")[0]);
-            //Console.WriteLine(get_average_weather_temps("ne389ex")[1]);
+            //get scores
+            get_score_class get_scores = new get_score_class();
+            double crime_score = get_scores.get_illegal_activity_score(crimes_list);
+            double distance_to_work_score = get_scores.get_distance_to_work_score(distance_to_work);
+            double time_to_nearest_bar_score = get_scores.get_distance_from_bar_score(time_to_nearest_bar, distance_from_bar_ideally);
+            double time_to_nearest_movie_theater_score = get_scores.get_distance_from_a_movie_theater_score(time_to_nearest_movie_theater);
+            double time_to_nearest_hospital_score = get_scores.get_distance_from_a_hospital_score(time_to_nearest_hospital);
+            double time_to_nearest_shopping_center_score = get_scores.get_distance_from_a_shopping_center_score(time_to_nearest_shopping_center);
+            double number_of_flood_risk_areas_score = get_scores.get_flood_risk_score(number_of_flood_risk_areas);
+            double number_of_restaurants_score = get_scores.get_number_of_restaurants_score(number_of_restaurants);
+            double number_of_parks_score = get_scores.get_number_of_parks_score(number_of_parks);
+            double number_of_takeaways_score = get_scores.get_number_of_takeaways_score(number_of_takeaways);
+            double number_of_local_grocery_stores_score = get_scores.get_number_of_grocery_stores_score(number_of_local_grocery_stores);
+            double number_of_local_museums_score = get_scores.get_number_of_museums_score(number_of_museums);
+            double weather_temp_max_score = get_scores.get_max_weather_temp_score(weather_temp_max);
+            double weather_temp_min_score = get_scores.get_min_weather_temp_score(weather_temp_min);
+            double weather_temp_score = (weather_temp_max_score + weather_temp_min_score) / 2;
 
-            //List<String> crimes_list = get_recorded_crimes_in_area("CM1 4TS");
-            //get_score_class get_scores = new get_score_class();
-            //Console.WriteLine(get_scores.get_illegal_activity_score(crimes_list));
 
-            //Console.WriteLine(get_distance_to_nearest_places("Parks", "Ne389ex"));
+            Console.WriteLine("scores");
+            Console.WriteLine(crime_score);
+            Console.WriteLine(distance_to_work_score);
+            Console.WriteLine(time_to_nearest_bar_score);
+            Console.WriteLine(time_to_nearest_movie_theater_score);
+            Console.WriteLine(time_to_nearest_hospital_score);
+            Console.WriteLine(time_to_nearest_shopping_center_score);
+            Console.WriteLine(number_of_flood_risk_areas_score);
+            Console.WriteLine(number_of_restaurants_score);
+            Console.WriteLine(number_of_parks_score);
+            Console.WriteLine(number_of_takeaways_score);
+            Console.WriteLine(number_of_local_grocery_stores_score);
+            Console.WriteLine(number_of_local_museums_score);
+            Console.WriteLine(weather_temp_score);
 
-            //string[] start_point = {"47.6044", "-122.3345"};
-            //string[] end_point = {"45.5347", "-122.6231"};
-            //Console.WriteLine(get_car_distance_between_two_points(start_point, end_point));
 
-            //Console.WriteLine(number_of_nearby_places("Parks", "ne389ex", "999"));
+            //get weights 
+            double weighting_crime = get_weighting_as_decimal((current_data.weighting_crime).ToString());
+            double weighting_work_distance = get_weighting_as_decimal((current_data.weighting_work_distance).ToString());
+            double weighting_bar_distance = get_weighting_as_decimal((current_data.weighting_bar_distance).ToString());
+            double weighting_movie_theater_distance = get_weighting_as_decimal((current_data.weighting_movie_theater_distance).ToString());
+            double weighting_hospital_distance = get_weighting_as_decimal((current_data.weighting_hospital_distance).ToString());
+            double weighting_shopping_center_distance = get_weighting_as_decimal((current_data.weighting_shopping_center_distance).ToString());
+            double weighting_flood_areas_number = get_weighting_as_decimal((current_data.weighting_flood_areas_number).ToString());
+            double weighting_resturants_number = get_weighting_as_decimal((current_data.weighting_restaurants_number).ToString());
+            double weighting_parks_number = get_weighting_as_decimal((current_data.weighting_parks_number).ToString());
+            double weighting_takeaways_number = get_weighting_as_decimal((current_data.weighting_takeaways_number).ToString());
+            double weighting_local_grocery_stores_number = get_weighting_as_decimal((current_data.weighting_local_grocery_stores_number).ToString());
+            double weighting_museums_number = get_weighting_as_decimal((current_data.weighting_museums_number).ToString());
+            double weighting_weather_temps = get_weighting_as_decimal((current_data.weighting_weather_temps).ToString());
 
-            //Console.WriteLine(get_flood_risk_score(get_number_of_flood_risk_areas("dd14dh")));
+
+            //measure scores against weightings
+            double crime_result = crime_score * weighting_crime;
+            double distance_to_work_result = distance_to_work_score * weighting_work_distance;
+            double time_to_nearest_bar_result = time_to_nearest_bar_score * weighting_bar_distance;
+            double time_to_nearest_movie_theater_result = time_to_nearest_movie_theater_score * weighting_movie_theater_distance;
+            double time_to_nearest_hospital_result = time_to_nearest_hospital_score * weighting_hospital_distance;
+            double time_to_nearest_shopping_center_result = time_to_nearest_shopping_center_score * weighting_shopping_center_distance;
+            double number_of_flood_risk_areas_result = number_of_flood_risk_areas_score * weighting_flood_areas_number;
+            double number_of_restaurants_result = number_of_restaurants_score * weighting_resturants_number;
+            double number_of_parks_result = number_of_parks_score * weighting_parks_number;
+            double number_of_takeaways_result = number_of_takeaways_score * weighting_takeaways_number;
+            double number_of_local_grocery_stores_result = number_of_local_grocery_stores_score * weighting_local_grocery_stores_number;
+            double number_of_museums_result = number_of_local_museums_score * weighting_museums_number;
+            double weather_temp_result = weather_temp_score * weighting_weather_temps;
+
+
+            //working out final score and display a breakdown of the score to the user
+            final_score =
+                    crime_result + distance_to_work_result + time_to_nearest_bar_result + time_to_nearest_movie_theater_result + time_to_nearest_hospital_result +
+                    time_to_nearest_shopping_center_result + number_of_flood_risk_areas_result + number_of_restaurants_result + number_of_parks_result +
+                    number_of_takeaways_result + number_of_local_grocery_stores_result + number_of_museums_result + weather_temp_result;
+
+            txt_results.Text = "This location scored:   " + Math.Round(final_score, 2, MidpointRounding.AwayFromZero).ToString() + "   Out of 1 " +
+                "\r\n\r\nScores:" +  
+                    "\r\n \t Crime in the area scored:   " + crime_score.ToString() + "   and contributed   " + (current_data.weighting_crime).ToString() + "%   to the final score" + 
+                    "\r\n\t Distance to work scored:   " + distance_to_work_score.ToString() + "   and contributed   " + (current_data.weighting_work_distance).ToString() + "%   to the final score" +
+                    "\r\n\t Distance from the nearest bar scored:   " + time_to_nearest_bar_score.ToString() + "   and contributed   " + (current_data.weighting_bar_distance).ToString() + "%   to the final score" +
+                    "\r\n\t Distance to the nearest movie theater scored:   " + time_to_nearest_movie_theater_score.ToString() + "   and contributed   " + (current_data.weighting_movie_theater_distance).ToString() + "%   to the final score" +
+                    "\r\n\t Distance to the nearest hospital scored:   " + time_to_nearest_hospital_score.ToString() + "   and contributed   " + (current_data.weighting_hospital_distance).ToString() + "%   to the final score" +
+                    "\r\n\t Distance to the nearest shopping center scored:   " + time_to_nearest_shopping_center_score.ToString() + "   and contributed   " + (current_data.weighting_shopping_center_distance).ToString() + "%   to the final score" +
+                    "\r\n\t Number of flood risk areas in the area scored:   " + number_of_flood_risk_areas_score.ToString() + "   and contributed   " + (current_data.weighting_flood_areas_number).ToString() + "%   to the final score" +
+                    "\r\n\t Number of restaurants in the area scored:   " + number_of_restaurants_score.ToString() + "   and contributed   " + (current_data.weighting_restaurants_number).ToString() + "%   to the final score" +
+                    "\r\n\t Number of parks in the area scored:   " + number_of_parks_score.ToString() + "   and contributed   " + (current_data.weighting_parks_number).ToString() + "%   to the final score" +
+                    "\r\n\t Number of takeaways in the area scored:   " + number_of_takeaways_score.ToString() + "   and contributed   " + (current_data.weighting_takeaways_number).ToString() + "%   to the final score" +
+                    "\r\n\t Number of grocery stores in the area scored:   " + number_of_local_grocery_stores_score.ToString() + "   and contributed   " + (current_data.weighting_local_grocery_stores_number).ToString() + "%   to the final score" +
+                    "\r\n\t Number of museums in the area scored:   " + number_of_local_museums_score.ToString() + "   and contributed   " + (current_data.weighting_museums_number).ToString() + "%   to the final score" +
+                    "\r\n\t The weather temprature of the area scored:   " + weather_temp_score.ToString() + "   and contributed   " + (current_data.weighting_weather_temps).ToString() + "%   to the final score";
         }
     }
 }

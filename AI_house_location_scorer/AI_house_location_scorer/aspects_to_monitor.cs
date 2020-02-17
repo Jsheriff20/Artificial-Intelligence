@@ -77,7 +77,7 @@ namespace AI_house_location_scorer
             data.weighting_hospital_distance = nud_distance_from_a_hospital.Value.ToString();
             data.weighting_shopping_center_distance = nud_distance_from_a_shopping_center.Value.ToString();
             data.weighting_flood_areas_number = nud_number_of_flood_areas.Value.ToString();
-            data.weighting_resturants_number = nud_number_of_restaurants.Value.ToString();
+            data.weighting_restaurants_number = nud_number_of_restaurants.Value.ToString();
             data.weighting_parks_number = nud_number_of_parks.Value.ToString();
             data.weighting_takeaways_number = nud_number_of_takeaways.Value.ToString();
             data.weighting_local_grocery_stores_number = nud_number_of_local_grocery_stores.Value.ToString();
