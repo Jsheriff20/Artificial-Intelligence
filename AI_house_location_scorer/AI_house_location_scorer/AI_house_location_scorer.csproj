@@ -87,6 +87,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="get_postcode_geo_locations.cs" />
     <Compile Include="get_score_class.cs" />
     <Compile Include="number_of_nearby_places.cs" />
     <Compile Include="Program.cs" />
