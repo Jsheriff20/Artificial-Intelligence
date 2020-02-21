@@ -315,19 +315,19 @@ namespace AI_house_location_scorer
                 case var expression when (distance_time >= 15 && distance_time < 18):
                     return 0.6;
 
-                case var expression when (distance_time >= 23 && distance_time < 23):
+                case var expression when (distance_time >= 18 && distance_time < 23):
                     return 0.5;
 
-                case var expression when (distance_time >= 28 && distance_time < 28):
+                case var expression when (distance_time >= 23 && distance_time < 28):
                     return 0.4;
 
-                case var expression when (distance_time >= 34 && distance_time < 34):
+                case var expression when (distance_time >= 38 && distance_time < 34):
                     return 0.3;
 
-                case var expression when (distance_time >= 40 && distance_time < 40):
+                case var expression when (distance_time >= 34 && distance_time < 40):
                     return 0.2;
 
-                case var expression when (distance_time >= 45 && distance_time < 45):
+                case var expression when (distance_time >= 40 && distance_time < 45):
                     return 0.1;
 
                 default:
