@@ -449,6 +449,8 @@ namespace AI_house_location_scorer
 
         private void calculate_results_Load(object sender, EventArgs e)
         {
+            get_fuzzy_score_class fuzzy_score = new get_fuzzy_score_class();
+            Console.WriteLine(fuzzy_score.get_weather_score(1));
             double final_score = 0.0;
 
 

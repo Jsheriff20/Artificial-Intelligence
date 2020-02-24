@@ -39,3 +39,4 @@ C:\Users\Jack\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_
 C:\Users\jacka\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\BingMapsRESTToolkit.dll
 C:\Users\jacka\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\BingMapsRESTToolkit.pdb
 C:\Users\jacka\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\BingMapsRESTToolkit.xml
+C:\Users\jacka\Desktop\Artificial-Intelligence\AI_house_location_scorer\AI_house_location_scorer\bin\Debug\FLS.dll
