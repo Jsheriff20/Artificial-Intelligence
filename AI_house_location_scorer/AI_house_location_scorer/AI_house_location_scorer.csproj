@@ -90,7 +90,13 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+<<<<<<< HEAD
     <Compile Include="get_fuzzy_score_class.cs" />
+=======
+    <Compile Include="fuzzifier_class.cs" />
+    <Compile Include="get_fuzzy_score_class.cs" />
+    <Compile Include="get_postcode_geo_locations.cs" />
+>>>>>>> 687088986a25129bce32684e52c0be2f03342ef6
     <Compile Include="get_score_class.cs" />
     <Compile Include="number_of_nearby_places.cs" />
     <Compile Include="Program.cs" />

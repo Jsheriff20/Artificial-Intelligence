@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+<<<<<<< HEAD
 using FLS;
 using FLS.Rules;
+=======
+>>>>>>> 687088986a25129bce32684e52c0be2f03342ef6
 
 namespace AI_house_location_scorer
 {
     class get_fuzzy_score_class
     {
+<<<<<<< HEAD
         //fuzzification of variables 
         //max of 8
         public double get_weather_score(int number_of_flood_risk_areas)
@@ -136,3 +140,9 @@ namespace AI_house_location_scorer
 
     }
 }
+=======
+        
+    }
+}
+
+>>>>>>> 687088986a25129bce32684e52c0be2f03342ef6
